@@ -4,3 +4,8 @@
 \contentsline {subsection}{\numberline {7.3}The t-Distribution}{6}{subsection.7.3}%
 \contentsline {subsection}{\numberline {7.4}The F-Distribution}{7}{subsection.7.4}%
 \contentsline {subsection}{\numberline {7.5}The Central Limit Theorem}{8}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}Normal Approximation to the Binomial}{10}{subsection.7.6}%
+\contentsline {section}{\numberline {8}Chapter 8 \textemdash {} Estimation}{11}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Point Estimation}{11}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Evaluating the Goodness of an Estimator}{13}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Confidence Intervals}{14}{subsection.8.3}%

@@ -14,6 +14,7 @@
 \usepackage{float}
 \usepackage{fancyhdr}
 \usepackage{pgfplots}
+\usepackage{ulem}
 
 \setlength{\parindent}{0in}
 \pagestyle{fancy} 
@@ -70,27 +71,41 @@
         A \textbf{population} consists of the entire collection of the observations with which we are concerned.
     \end{definition}
 
+    \bigskip
+
     \begin{definition}
         A \textbf{sample} is a subset of a population.
     \end{definition}
+
+    \bigskip
 
     \begin{definition}
         A \textbf{parameter} is a numerical summary of a population. For example, the mean, the variance, etc. In practice, it is unknown.
     \end{definition}
 
+    \bigskip
+
     \begin{definition}
         A \textbf{statistic} is a numerical summary of a sample. For example, the sample mean, the sample variance, etc.
     \end{definition}
+
+    \bigskip
 
     \begin{definition}
         The statistic varies from sample to sample and hence it is a random variable and has a probability distribution called the \textbf{sampling distribution}.
     \end{definition}
 
+    \bigskip
+
     The knowledge of the sampling distribution of a statistic helps to make an inference about the corresponding population (true) parameter.
+
+    \bigskip
 
     \begin{definition}
         We say that the random variables $Y_1, Y_2, \ldots, Y_n$ are \textbf{independent and identically distributed} (i.i.d.) if they are independent random variables and have the same probability distribution (same pdf/cdf).
     \end{definition}
+
+    \bigskip
 
     For a random sample, we write
     \[
@@ -116,6 +131,10 @@
             S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (Y_i - \overline{Y})^2
         \]
     \end{definition}
+
+    \begin{theorem}
+        Let $Y_1, \ldots, Y_n$ be an iid random sample from a population with any distribution with finite mean $\mu$ and finite variance $\sigma^2$. Then \(E(\overline{Y}) = \mu\) and \(V(\overline{Y}) = \frac{\sigma^2}{n}\).
+    \end{theorem}
 
     \begin{theorem}
         If $Y_1, \ldots, Y_n \overset{\text{i.i.d.}}{\sim} N\left(\mu, \sigma^2\right)$, then
@@ -171,7 +190,7 @@
     \end{proof}
 
     \begin{theorem}
-        As a corollary of theorem 1.2.2\\
+        As a corollary of theorem 7.2.2\\
         If \( Y_1, \ldots, Y_n \overset{\text{i.i.d.}}{\sim} N(\mu, \sigma^2) \), then
         \[
             U = \sum_{i=1}^{n} \left( \frac{Y_i - \mu}{\sigma} \right)^2 \sim \chi^2_{(n)}
@@ -303,6 +322,210 @@
     \newpage
 
     \subsection{The Central Limit Theorem}
+
+    We already showed that if \(Y_1, Y_2, \ldots, Y_n\) represents a random sample from any distribution with mean \(\mu\) and variance \(\sigma^2\), then \(E(\overline{Y}) = \mu\) and \(V(\overline{Y}) = \frac{\sigma^2}{n}\).\\
+    In what follows, we will develop an approximation for the sampling distribution of \(\overline{Y}\) that can be used \uline{regardless of the distribution of the population from which the sample is taken}.
+
+    \bigskip
+
+    \begin{theorem} \textbf{Central Limit Theorem}\\
+        Let \(Y_1, Y_2, \cdots, Y_n\) be a random sample from a population with finite mean \(\mu\) and finite variance \(\sigma^2\), but unknown distribution. Then if \(n\) is sufficiently large, \(\overline{Y}\) is \textcolor{red}{approximately normally distributed} with mean \(\mu\) and variance \(\frac{\sigma^2}{n}\), i.e. $\overline{Y} \approx N(\mu, \frac{\sigma^2}{n})$.
+    \end{theorem}
+
+    \bigskip
+
+    The CLT can be written more formally as:\\
+    If
+    \[
+        U_n = \frac{\sum_{i=1}^n Y_i - n\mu}{\sigma \sqrt{n}} = \frac{\overline{Y} - \mu}{\sigma / \sqrt{n}}
+    \]
+    then
+    \[
+        U_n \overset{d}{\to} N(0, 1)
+    \]
+
+    This implies that
+    \[
+        \lim_{n \to \infty} P(U_n \leq u) = \int_{-\infty}^{u} \frac{1}{\sqrt{2\pi}} e^{-t^2/2} \, dt
+    \]
+
+    \begin{proof}
+        Let $U_n = \frac{\overline{Y} - \mu}{\sigma / \sqrt{n}}$, now we can rewrite $U_n = \frac{1}{\sqrt{n}} \sum\limits_{i=1}^{n} Z_i$.\\
+        Now note that
+        \[
+            M_{U_n}(t) = M_{\frac{1}{\sqrt{n}} \sum\limits_{i=1}^{n} Z_i}(t) = M_{\sum\limits_{i=1}^{n} Z_i}\left(\frac{t}{\sqrt n}\right) = \prod_{i=1}^{n} M_{Z_i} \left(\frac{t}{\sqrt n}\right) = \left[M_{Z_1}\left(\frac{t}{\sqrt{n}}\right)\right]^n
+        \]
+        Now through the use of the McLaurin expansion of \(M_{Z_1}\left(\frac{t}{\sqrt{n}}\right)\) it can be shown that
+        \[
+            \lim_{n \to \infty} n \cdot M_{Z_1}\left(\frac{t}{\sqrt{n}}\right) - n = \frac{t^2}{2}
+        \]
+
+        Now note that
+        \[
+            \lim_{n \to \infty} b_n = b \implies \lim_{n \to \infty} \left(1 + \frac{b_n}{n}\right)^n = e^b
+        \]
+
+        Thus we see that
+        \[
+            \lim_{n \to \infty} M_{U_n}(t) = \lim_{n \to \infty} \left[M_{Z_1}\left(\frac{t}{\sqrt{n}}\right)\right]^n = e^{\frac{t^2}{2}}
+        \]
+
+        Thus we see that $\lim\limits_{n \to \infty} M_{U_n}(t) = M_{N(0,1)}(t)$ and thus by the uniqueness of MGFs we see that $U_n \overset{d}{\to} N(0,1)$.
+    \end{proof}
+
+    \bigskip
+
+    The \textbf{Central Limit Theorem} states that the sample mean from any probability distribution (as long as mean and variance are \uline{finite}) will have an approximate normal distribution, if the sample is sufficiently large.
+
+    \bigskip
+
+    ``Large \( n \)'' means \( n \geq 30 \) in general, but in some cases may even be much less.
+
+    \bigskip
+
+    The larger the sample size, the more nearly normally distributed is the population of all possible sample means.
+
+    \bigskip
+
+    For fairly symmetric distributions, \( n > 15 \) will be sufficient.
+
+    \newpage
+
+    \subsection{Normal Approximation to the Binomial}
+
+    The normal distribution (continuous) can be used to approximate binomial (discrete) probabilities when there is a very large number of trials and when \(np\) and \(n(1 - p)\) are both large (\(np \geq 5\) and \(n(1 - p) \geq 5\)).
+
+    \bigskip
+
+    \begin{theorem}
+        \textbf{Normal Approximation to the Binomial}\\
+        If \(Y \sim \text{Bin}(n,p)\), then \(Y \approx N(\mu = np, \sigma^2 = npq)\)
+    \end{theorem}
+
+    \begin{proof}
+        The justification for the normal approximation to the binomial is based on the Central Limit Theorem.
+    \end{proof}
+
+    \bigskip
+    
+    To improve the accuracy of the approximation, we usually use a correction factor, \uline{called continuity correction}, to take into account that the binomial random variable is discrete while the normal is continuous.
+
+    \bigskip
+
+    The basic idea is to treat the discrete value \(b\) as the continuous interval from \(b - 0.5\) to \(b + 0.5\) giving the following adjustments:
+
+    \begin{itemize}
+        \item \(P(Y = b) = P(b - 0.5 \leq Y \leq b + 0.5)\)
+        \item \(P(Y \leq b) = P(Y \leq b + 0.5)\)
+        \item \(P(b \leq Y) = P(b - 0.5 \leq Y)\)
+    \end{itemize}
+
+    \newpage
+
+    \section{Chapter 8 \textemdash{} Estimation}
+
+    If \( Y_1, Y_2, \ldots, Y_n \overset{i.i.d.}{\sim} N(\mu, 1) \), where \(\mu\) is unknown, then how do we estimate \(\mu\)?
+    
+    \bigskip
+
+    An \textcolor{red}{estimator} is a rule, often expressed as a formula, that tells how to calculate the value of an estimate based on the measurements contained in a sample.
+    
+    \bigskip
+
+    Let \( Y_1, Y_2, \ldots, Y_n \) be i.i.d. with pdf/pmf \( f = f(\cdot|\theta) = f_\theta \), where the parameter \(\theta\) is unknown ($f$ depends on $\theta$). We want to find an estimate for the unknown parameter \(\theta\).
+
+    \subsection{Point Estimation}
+    \begin{definition}
+        A \textbf{point estimator} $\hat{\theta}$ of the parameter \(\theta\) is a function of the underlying random variables and so it is a random variable with a distribution function.
+    \end{definition}
+
+    \bigskip
+
+    A point estimate of \(\theta\) is a function of the sample \(Y_1, Y_2, \ldots, Y_n\) only. That is if $y_1, \ldots, y_n$ is the observed sample then $\hat{\theta} = U(y_1, \ldots, y_n)$ is a number.
+
+    \bigskip
+
+    For example a distribution with mean $\mu$ and variance $\sigma^2$ we have that $\overline{Y}$ is a point estimator for $\mu$ and $S^2$ is a point estimator for $\sigma^2$.
+
+    \bigskip
+
+    We say that a point estimator $\hat{\theta}$ is "good" if it has the following desirable properties:
+    \begin{enumerate}
+        \item Unbiased
+        \item Consistent
+        \item Minimum Variance
+        \item Has a known probability distribution
+    \end{enumerate}
+    
+    \begin{definition}
+        Let $\hat{\theta}$ be a point estimator for a parameter $\theta$. Then $\hat{\theta}$ is an \textbf{unbiased estimator} if $E(\hat{\theta}) = \theta$. If $E(\hat{\theta}) \neq \theta$, then $\hat{\theta}$ is said to be \textbf{biased}.
+    \end{definition}
+    Note that $\hat{\theta}$ is a random variable whereas $\theta$ is a constant.
+
+    \bigskip
+
+    \begin{definition}
+        The \textbf{bias} of a point estimator $\hat{\theta}$ is given by $B(\hat{\theta}) = E(\hat{\theta}) - \theta$.
+    \end{definition}
+    We see that a point estimator $\hat{\theta}$ is unbiased w.r.t. $\theta$ if $B(\hat{\theta}) = 0$.
+
+    \bigskip
+        
+    \begin{definition}
+        The \textbf{mean square error} of a point estimator $\hat{\theta}$ is $MSE(\hat{\theta}) = E\left[ (\hat{\theta} - \theta)^2 \right]$.
+    \end{definition}
+
+    \begin{theorem}
+        $MSE(\hat{\theta}) = V(\hat{\theta}) + \left[B(\hat{\theta})\right]^2$
+    \end{theorem}
+    It can be seen that if the estimator is unbiased then $MSE(\hat{\theta}) = V(\hat{\theta})$.
+
+    \bigskip
+
+    \textbf{Examples of Well-Known Unbiased Estimators}
+
+    Let $Y_1, Y_2, \ldots, Y_n$ be a random sample with $E(Y_i) = \mu_1$ and $X_1, X_2, \ldots, X_n$ be a random sample with $E(X_i) = \mu_2$. Then:
+
+    \begin{align*}
+        E\left(\overline{Y}\right) &= \mu_1 \quad \text{and} \quad E\left(\overline{X}\right) = \mu_2\\
+        E\left(\overline{Y} - \overline{X}\right) &= \mu_1 - \mu_2
+    \end{align*}
+    
+    Let $Y \sim \text{Bin}(n, p_1)$ and $X \sim \text{Bin}(n, p_2)$. Then $\hat{p}_1 = \frac{Y}{n}$ is the proportion of successes in the sample.
+    
+    \begin{align*}
+        E\left(\hat{p}_1\right) &= E\left(\frac{Y}{n}\right) = \frac{1}{n} E(Y) = \frac{np_1}{n} = p_1\\
+        E\left(\hat{p}_2\right) &= E\left(\frac{X}{n}\right) = \frac{1}{n} E(X) = \frac{np_2}{n} = p_2\\
+        E\left(\hat{p}_1 - \hat{p}_2\right) &= p_1 - p_2
+    \end{align*}
+
+    \newpage
+
+    \subsection{Evaluating the Goodness of an Estimator}
+
+    \begin{definition}
+        Let \(\sigma^2_{\hat{\theta}}\) be the variance of the sampling distribution of the estimator \(\hat{\theta}\)
+
+        (i.e. \(V(\hat{\theta}) = \sigma^2_{\hat{\theta}}\)), then \(\sqrt{V(\hat{\theta})} = \sqrt{\sigma^2_{\hat{\theta}}} = \sigma_{\hat{\theta}}\) is called the \textbf{standard error} of the estimator. That is, the \textbf{standard error} of \(\hat{\theta} =\) the standard deviation of \(\hat{\theta}\).
+    \end{definition}
+    Note that we call it the standard error because it comes from the sampling process.
+
+    \bigskip
+
+    \begin{definition}
+        The \textbf{error of estimation} \(\varepsilon\) is the distance between an estimator and its target parameter. That is, \(\varepsilon = |\hat{\theta} - \theta|\).
+    \end{definition}
+
+    \bigskip
+
+    \begin{definition}
+        The \textbf{2-standard-error bound} on the error of estimation is given by $2SE(\hat{\theta}) = 2\sigma_{\hat{\theta}}$.
+    \end{definition}
+    To place a 2-standard-error bound on the error of estimation is to find the probability that the error of estimation is within 2 standard errors of the estimator. That is to find $P(|\varepsilon| < 2SE(\hat{\theta})) = P(|\varepsilon| < 2 \sigma_{\hat{\theta}})$.
+
+    \newpage
+
+    \subsection{Confidence Intervals}
 
     
 \end{document}
