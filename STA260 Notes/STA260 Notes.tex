@@ -532,8 +532,144 @@
     \textbf{Properties of the CI:}
 
     \begin{itemize}
-        \item It contains true parameter \(\theta\).
-        \item It is relatively narrow.
+        \item It contains true parameter \(\theta\) with high probability
+        \item It is relatively narrow
     \end{itemize}
 
+    The \textbf{lower} and \textbf{upper} endpoints of a CI are called the \textbf{lower} and \textbf{upper confidence limits}.
+
+    The probability that a CI will enclose \(\theta\) is called the \textbf{confidence coefficient} or \textbf{confidence level}, denoted by \(1 - \alpha\).
+
+    \bigskip
+
+    \begin{definition}
+        A \(100(1 - \alpha)\%\) \textbf{confidence interval} for a parameter \(\theta\) is a random interval \([\hat{\theta}_L, \hat{\theta}_U]\) such that 
+        \[
+        P\left( \hat{\theta}_L \leq \theta \leq \hat{\theta}_U \right) = 1 - \alpha,
+        \]
+        regardless of the value of \(\theta\).
+    \end{definition}
+        
+    Properties of the CI:
+        
+    \begin{itemize}
+        \item Here, \(\hat{\theta}_L\) and \(\hat{\theta}_U\) are functions of \(Y_i\)'s only.
+        \item \textbf{Two-sided CI}: \([\hat{\theta}_L, \hat{\theta}_U]\)
+        \item \textbf{Lower one-sided CI}: \([\hat{\theta}_L, \infty)\)
+        \item \textbf{Upper one-sided CI}: \((-\infty, \hat{\theta}_U]\)
+        \item The confidence level is denoted by \(100(1 - \alpha)\%\). The most common confidence levels are 90\%, 95\%, and 99\%.
+        \item The higher the confidence level, the more strongly we believe that the true value of the parameter being estimated lies within the interval.
+    \end{itemize}
+
+    \bigskip
+
+    One way of getting CI is through the \textbf{Pivotal Method}:
+
+    \begin{itemize}
+        \item We need to find a random variable, called a \textbf{pivot}, that is typically a function of the estimator of \(\theta\) satisfying the following:
+        \begin{enumerate}
+            \item It depends on and only on \(Y_1, \ldots, Y_n\) and \(\theta\): \(Q(y_1, \ldots, y_n \mid \theta)\).
+            \item Its probability distribution (pdf/cdf) does not depend on \(\theta\) or any other unknown parameter.
+        \end{enumerate}
+        \item Use the distribution of the pivot to find the cutting points \(a\) and \(b\):
+        \[
+        P(a \leq Q \leq b) = 1 - \alpha.
+        \]
+        \item Write down \(P(a \leq Q \leq b)\) to get \(P(L(y_1, \ldots, y_n) \leq \theta \leq U(y_1, \ldots, y_n))\), if you can.
+        \item Thus, \((1-\alpha)100\%\) CI for \(\theta\) is: \([\hat{\theta}_L, \hat{\theta}_U] = [L(y_1, \ldots, y_n), U(y_1, \ldots, y_n)]\).
+    \end{itemize}
+
+    \bigskip
+
+    In general we use 3 methods to show a pivot's distribution does not depend on $\theta$:
+    \begin{enumerate}
+        \item Use the CDF of the pivot and show that it does not depend on $\theta$.
+        \item Use the MGF of the pivot and the uniqueness of MGFs to show that its corresponding pdf does not depend on $\theta$.
+        \item Directly show that the pivot has a similar distribution as a known distribution.
+    \end{enumerate}
+
+    An example of method III:\\
+    Let $Y$ be an observation from an exponential distritbution. Then $\frac{Y}{\theta}$ is a pivot.
+    \begin{proof}
+        Note that $Y \sim \text{Exp}(\theta)$ and thus $Y \sim \text{Gamma}(1, \theta)$. Now note that as
+        \[
+        \phi \text{Gamma}(\alpha, \beta) = \text{Gamma}(\alpha, \phi\beta)
+        \]
+        we see that
+        \[
+        \frac{Y}{\theta} \sim \frac{1}{\theta}\text{Gamma}(1,\theta) = \text{Gamma}(1,\frac{1}{\theta}\theta) = \text{Gamma}(1, 1) \sim \text{Exp(1)}
+        \]
+        and thus does not depend on $\theta$.
+    \end{proof}
+
+    \bigskip
+
+    \textbf{How to find the cutting points:}\\
+    Suppose we have a pivot $U$ of $Y_1, \ldots, Y_n$ and $\theta$ and we want to find cutting points $a$ and $b$ such that $P(a \leq U \leq b) = 1 - \alpha$. We then see that $P(U \leq a) + P(b \leq U) = \alpha$. Thus there may be many solutions for cutting points. Thus as a convention we find $a$ and $b$ such that $P(U \leq a) = \frac{\alpha}{2}$ and $P(b \leq U) = \frac{\alpha}{2}$.
+
+    \newpage
+
+    \subsection{Large-Sample Confidence Intervals}
+
+    If the target parameter \(\theta\) is \(\mu, p, \mu_1 - \mu_2\) or \(p_1 - p_2\), then for large samples by CLT
+        
+    \[
+        Z = \frac{\hat{\theta} - \theta}{\sigma_{\hat{\theta}}} \sim N(0, 1)
+    \]
+        
+    The distribution of \(Z\) doesn’t depend on \(\theta\). So it is \textbf{pivotal}.
+        
+    The pivotal method can be employed to develop confidence intervals for the target parameter \(\theta\).
+
+    \newpage
+
+    \section{Chapter 9 \textemdash{} Properties of Point Estimators and Methods of Estimation}
+
+    \subsection{Relative Efficiency}
+
+    \newpage
+
+    \subsection{Consistency}
+
+    \newpage
+
+    \subsection{Sufficiency}
+
+    \newpage
+
+    \subsection{Completeness and Uniqueness}
+
+    \newpage
+
+    \subsection{Exponential Family}
+
+    \newpage
+
+    \subsection{The Rao-Blackwell Theorem}
+
+    \newpage
+
+    \subsection{Unique Minimum Variance Unbiased Estimator (UMVUE)}
+
+    \newpage
+
+    \subsection{Cramer-Rao Theorem}
+
+    \newpage
+
+    \subsection{How to find Estimators}
+
+    \newpage
+
+    \section{Chapter 10 \textemdash{} Hypothesis Testing}
+
+    \subsection{Elements of a Statistical Test}
+
+    \newpage
+
+    \subsection{Neyman-Pearson Lemma}
+
+    \newpage
+
+    \subsection{Likelihood Ratio Tests}
 \end{document}
