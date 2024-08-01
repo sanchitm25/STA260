@@ -1,0 +1,6 @@
+\contentsline {section}{\numberline {7}Chapter 7 \textemdash {} Sampling Distributions and the Central Limit Theorem}{3}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Introduction}{3}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Sampling Distributions}{4}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}The t-Distribution}{6}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}The F-Distribution}{7}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}The Central Limit Theorem}{8}{subsection.7.5}%
