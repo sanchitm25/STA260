@@ -472,7 +472,10 @@
     \bigskip
         
     \begin{definition}
-        The \textbf{mean square error} of a point estimator $\hat{\theta}$ is $MSE(\hat{\theta}) = E\left[ (\hat{\theta} - \theta)^2 \right]$.
+        The \textbf{mean square error} of a point estimator $\hat{\theta}$ is
+        \[
+            MSE(\hat{\theta}) = E\left[ (\hat{\theta} - \theta)^2 \right]
+        \]
     \end{definition}
 
     \begin{theorem}
@@ -579,6 +582,8 @@
         \item Thus, \((1-\alpha)100\%\) CI for \(\theta\) is: \([\hat{\theta}_L, \hat{\theta}_U] = [L(y_1, \ldots, y_n), U(y_1, \ldots, y_n)]\).
     \end{itemize}
 
+    Note that the Pivot is not unique.
+
     \bigskip
 
     In general we use 3 methods to show a pivot's distribution does not depend on $\theta$:
@@ -605,7 +610,7 @@
     \bigskip
 
     \textbf{How to find the cutting points:}\\
-    Suppose we have a pivot $U$ of $Y_1, \ldots, Y_n$ and $\theta$ and we want to find cutting points $a$ and $b$ such that $P(a \leq U \leq b) = 1 - \alpha$. We then see that $P(U \leq a) + P(b \leq U) = \alpha$. Thus there may be many solutions for cutting points. Thus as a convention we find $a$ and $b$ such that $P(U \leq a) = \frac{\alpha}{2}$ and $P(b \leq U) = \frac{\alpha}{2}$.
+    Suppose we have a pivot $U$ of $Y_1, \ldots, Y_n$ and $\theta$ and we want to find cutting points $a$ and $b$ such that $P(a \leq U \leq b) = 1 - \alpha$. We then see that $P(U \leq a) + P(b \leq U) = \alpha$. Thus there may be many solutions for cutting points. Thus as a convention we find $a$ and $b$ such that $P(U \leq a) = \frac{\alpha}{2}$ or $P(a \leq U) = 1 - \frac{\alpha}{2}$ and $P(b \leq U) = \frac{\alpha}{2}$. Thus it can be seen the cutting points are $U_{\frac{\alpha}{2}}$ and $U_{1 - \frac{\alpha}{2}}$. This shortcut can be especially helpful when the pivot is distributed similar to a known distribution.
 
     \newpage
 
@@ -621,55 +626,396 @@
         
     The pivotal method can be employed to develop confidence intervals for the target parameter \(\theta\).
 
+    \begin{theorem}
+        It can be seen that the confidence interval for any $\theta$ on a large sample is given by
+    \[
+        \left[\hat{\theta} - Z_{\frac{\alpha}{2}} \sigma_{\hat{\theta}} , \hat{\theta} + Z_{\frac{\alpha}{2}} \sigma_{\hat{\theta}}\right] = \hat{\theta} \mp Z_{\frac{\alpha}{2}} \sigma_{\hat{\theta}}
+    \]
+    \end{theorem}
+
+    \begin{definition}
+        We denote $Z_{\frac{\alpha}{2}} \sigma_{\hat{\theta}}$ as the \textbf{margin of error} of $\hat{\theta}$. It is a bound on the error of estimation.
+    \end{definition}
+
+    \bigskip
+
+    Consider $\frac{\overline{Y} - \mu}{\sigma / \sqrt{n}} \sim N(0, 1)$. Is this a pivotal quantity for $\mu$?\\
+    Indeed the distribution does not depend on $\mu$ however it may depend $\sigma$. If $\sigma$ is known then it is pivotal however if it is unknown then it is not pivotal. To this end we develop a pivotal quantity with the $t$-distribution.
+
+    \bigskip
+
+    \begin{theorem}
+        Let \[
+            T = \frac{\overline{Y} - \mu}{s/\sqrt{n}} \sim t_{n-1}
+        \]
+
+        Then $T$ is a pivotal quantity for $\mu$. Moreover the $100(1-\alpha)\%$ CI for $\mu$ is given by
+
+        \[
+        \left[ \overline{Y} - t_{\alpha/2} \frac{S}{\sqrt{n}}, \overline{Y} + t_{\alpha/2} \frac{S}{\sqrt{n}} \right]
+        \]
+    \end{theorem}
+
+    \bigskip
+
+    Suppose we want to compare between two datasets. Then we study the difference in their means or proportions. We can use the $t$-distribution to develop a pivotal quantity for the difference in means or proportions.\\
+    Let $Y_1, Y_2, \ldots, Y_n \overset{\text{i.i.d.}}{\sim} N(\mu_1, \sigma_1^2)$ and $X_1, X_2, \ldots, X_n \overset{\text{i.i.d.}}{\sim} N(\mu_2, \sigma_2^2)$.\\
+    Assume the two popoulations are independent and that $\sigma_1^2 = \sigma_2^2 = \sigma^2$, where $\sigma$ is unknown.\\
+    Then we have $\overline{Y} - \overline{X} \sim N\left(\mu_1 - \mu_2, \sigma^2 \left(\frac{1}{n_1} + \frac{1}{n_2}\right)\right)$.
+    \begin{definition}
+        We define the \textbf{pooled variance} as
+    \[
+        S_p^2 = \frac{(n_1-1)S_1^2 + (n_2-1)S_2^2}{(n_1-1) + (n_2-1)}
+    \]
+    where $S_1^2$ and $S_2^2$ are the sample variances.
+    \end{definition}
+
+    \bigskip
+
+    \begin{theorem}
+        $T$ defined as below is a pivotal quantity for $\mu_1 - \mu_2$:
+        \[
+            T = \frac{Z}{\sqrt{W/(n_1 + n_2 - 2)}} = \frac{\overline{Y} - \overline{X} - (\mu_1 - \mu_2)}{S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \sim t(n_1 + n_2 - 2)
+        \]
+        The $100(1-\alpha)\%$ CI for $\mu_1 - \mu_2$ is given by
+        \[
+            \left[ 
+            \overline{Y} - \overline{X} - t_{\alpha/2} S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}, \ 
+            \overline{Y} - \overline{X} + t_{\alpha/2} S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}} 
+            \right] = \overline{Y} - \overline{X} \mp t_{\alpha/2} S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}
+        \]
+    \end{theorem}
+
+    \begin{proof}
+        We see that
+        \[
+            Z = \frac{\overline{Y} - \overline{X} - (\mu_1 - \mu_2)}{\sigma \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \sim N(0, 1)
+        \]
+
+        and
+
+        \[
+            W = \frac{n_1 + n_2 - 2}{\sigma^2} S_p^2 \sim \chi^2_{n_1 + n_2 - 2} 
+        \]
+
+        Then we have
+        \[
+            T = \frac{Z}{\sqrt{W/(n_1 + n_2 - 2)}} = \frac{\frac{\overline{Y} - \overline{X} - (\mu_1 - \mu_2)}{\sigma \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}}{\sqrt{\frac{\frac{n_1 + n_2 - 2}{\sigma^2} S_p^2}{(n_1+n_2-2)}}} = \frac{\frac{\overline{Y} - \overline{X} - (\mu_1 - \mu_2)}{\sigma \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}}{\sqrt{\frac{S_p^2}{\sigma^2}}} = \frac{\frac{\overline{Y} - \overline{X} - (\mu_1 - \mu_2)}{\sigma \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}}{\frac{S_p}{\sigma}}
+        \]
+        It follows then
+        \[
+            T = \frac{\overline{Y} - \overline{X} - (\mu_1 - \mu_2)}{S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \sim t(n_1 + n_2 - 2)
+        \]
+    \end{proof}
+
+    \bigskip
+
+    Consider the case of finding a confidence interval for $\sigma^2$.
+
+    \begin{theorem}
+        Let \(Y_1, \ldots, Y_n \overset{\text{iid}}{\sim} N(\mu, \sigma^2), \text{ where } \mu \text{ and } \sigma^2 \text{ are unknown.}\)
+
+        $(n - 1)\frac{S^2}{\sigma^2} \sim \chi^2_{n-1}$ is a pivotal quantity for \(\sigma^2\).
+
+        \(100(1-\alpha)\%\) CI for \(\sigma^2\) is:
+
+        \[
+            \left[ \frac{(n-1)S^2}{\chi^2_{\alpha/2}}, \frac{(n-1)S^2}{\chi^2_{1-\alpha/2}} \right]
+        \]
+    \end{theorem}
+
+    \begin{proof}
+        As $(n - 1)\frac{S^2}{\sigma^2} \sim \chi^2_{n-1}$ we have
+        \[
+            P\left( \chi^2_{\alpha/2} \leq (n - 1)\frac{S^2}{\sigma^2} \leq \chi^2_{1-\alpha/2} \right) = 1 - \alpha
+        \]
+        It can then be seen that
+        \[
+            P\left(\frac{(n - 1)S^2}{\chi^2_{\alpha/2}} \leq \sigma^2 \leq \frac{(n - 1)S^2}{\chi^2_{1-\alpha/2}} \right) = 1 - \alpha
+        \]
+    \end{proof}
+
     \newpage
 
     \section{Chapter 9 \textemdash{} Properties of Point Estimators and Methods of Estimation}
 
     \subsection{Relative Efficiency}
+    
+    \begin{definition}
+        Given two unbiased estimators $\hat{\theta}_1$ and $\hat{\theta}_2$ of a parameter $\theta$, with variances $V(\hat{\theta}_1)$ and $V(\hat{\theta}_2)$, respectively, then the \textbf{efficiency} of $\hat{\theta}_1$ relative to $\hat{\theta}_2$, denoted $\text{eff}(\hat{\theta}_1, \hat{\theta}_2)$, is defined to be the ratio
+            
+        \[
+            eff(\hat{\theta}_1, \hat{\theta}_2) = \frac{V(\hat{\theta}_2)}{V(\hat{\theta}_1)}
+        \]
+    \end{definition}
+
+    \begin{definition}
+        If $\hat{\theta}_1$ and $\hat{\theta}_2$ denote two unbiased estimators for the same parameter $\theta$, then we say that $\hat{\theta}_1$ \textbf{is relatively more efficient} than $\hat{\theta}_2$ if $V(\hat{\theta}_2) > V(\hat{\theta}_1)$.
+    \end{definition}
+
+    It can be seen that \(\text{eff}(\hat{\theta}_1, \hat{\theta}_2) > 1 \implies\) $\hat{\theta}_1$ is relatively more efficient than $\hat{\theta}_2$.\\
+    Likewise it can be seen that \(\text{eff}(\hat{\theta}_1, \hat{\theta}_2) < 1 \implies\) $\hat{\theta}_2$ is relatively more efficient than $\hat{\theta}_1$.\\
+    It can also be seen that \(\text{eff}(\hat{\theta}_1, \hat{\theta}_2) = 1 \implies\) $\hat{\theta}_1$ and $\hat{\theta}_2$ are equally efficient.
+
+    \bigskip
+
+    In practice when given two unbiased estimators we choose the one with the smaller variance.\\
+    If \(\text{eff}(\hat{\theta}_1, \hat{\theta}_2) > 1 \implies \text{choose } \hat{\theta}_1.\)\\
+    If \(\text{eff}(\hat{\theta}_1, \hat{\theta}_2) < 1 \implies \text{choose } \hat{\theta}_2.\)
 
     \newpage
 
     \subsection{Consistency}
 
+    \begin{definition}
+        The estimator $\hat{\theta}_n$ is said to be a \textbf{consistent} estimator of $\theta$ if $\hat{\theta}_n$ converges in probability to $\theta$. That is, for any positive number $\epsilon$,
+        
+        \[
+            \lim_{n \to \infty} P\left( |\hat{\theta}_n - \theta| \leq \epsilon \right) = 1
+        \]
+        
+        or, equivalently,
+        
+        \[
+            \lim_{n \to \infty} P\left( |\hat{\theta}_n - \theta| > \epsilon \right) = 0
+        \]
+    \end{definition}
+        
+    \begin{theorem} \textbf{Variance Rule}\\
+        An \underline{unbiased} estimator $\hat{\theta}_n$ for $\theta$ is consistent if
+        
+        \[
+            \lim_{n \to \infty} V\left( \hat{\theta}_n \right) = 0
+        \]
+    \end{theorem}
+
+    \begin{theorem} \textbf{Weak Law of Large Numbers (WLLN)}\\
+        Let $Y_1, \ldots, Y_n$ be independent random variables with expected value $\mu$ and variance $\sigma^2$. Then the sample mean
+        
+        \[
+            \overline{Y}_n = \frac{1}{n} \sum_{i=1}^{n} Y_i \xrightarrow{p} \mu
+        \]
+        
+        \begin{itemize}
+            \item The WLLN states that as the number of observations in a sample increases, the sample mean approaches the population mean.
+            \item In simpler terms, the more data you collect, the closer your average will be to the true average of the entire population.
+            \item In fact, \(\frac{1}{n} \sum\limits_{i=1}^{n} g(Y_i) \xrightarrow{p} E[g(Y)]\).
+        \end{itemize}
+        
+    \end{theorem}
+
+    \begin{proof}
+        Follows directly from using Chebyshev's Inequality
+    \end{proof}
+
+    \begin{theorem}
+        \textbf{Continuous Mapping Theorem:} Let \(g\) be a function that is continuous at \(\theta\). If \(\hat{\theta}_n \xrightarrow{p} \theta\), then \(g(\hat{\theta}_n) \xrightarrow{p} g(\theta)\).
+    \end{theorem}
+
     \newpage
 
     \subsection{Sufficiency}
+
+    \begin{definition}
+        Let \( Y_1, Y_2, \ldots, Y_n \) denote a random sample from a probability distribution with unknown parameter \(\theta\). (\( Y_1, Y_2, \ldots, Y_n \sim f(y|\theta)\))\\
+        Then the statistic \( U = U(Y_1, Y_2, \ldots, Y_n) \) is said to be \textbf{sufficient} for \(\theta\) if the conditional distribution of \( Y_1, Y_2, \ldots, Y_n \), given \( U \), does not depend on \(\theta\). That is $f(y_1, y_2, \ldots, y_n | U)$ does not require $\theta$.
+    \end{definition}
+
+    \bigskip
+        
+    \textbf{Interpretation of a Sufficient Statistic:}
+    \begin{itemize}
+        \item All information about the value of the parameter \(\theta\) is contained in the value of the sufficient statistic.
+        \item A statistic is sufficient if no other statistic that can be calculated from the same sample provides any additional information as to the value of the parameter.
+        \item A statistic is sufficient if the sample from which it is calculated gives no additional information than does the statistic.
+    \end{itemize}
+        
+    \begin{itemize}
+        \item Sufficient estimators are important in constructing "good (efficient)" estimators: MVUE.
+        \item \textbf{How to find a sufficient statistic for \(\theta\)?}
+    \end{itemize}
+
+    \begin{definition}
+        Let \(y_1, y_2, \ldots, y_n\) be sample observations taken on corresponding random variables \(Y_1, Y_2, \ldots, Y_n\) whose distribution depends on a parameter \(\theta\). Then, if \(Y_1, Y_2, \ldots, Y_n\) are discrete (continuous) random variables, the \textbf{likelihood of the sample}, \(L(\theta) = L(y_1, y_2, \ldots, y_n \mid \theta)\), is defined to be the joint probability (density) of \(y_1, y_2, \ldots, y_n\). That is,
+        
+        \begin{itemize}
+            \item \textbf{Discrete case:}
+            \[
+            L(\theta) = L(y_1, \ldots, y_n \mid \theta) = p(y_1, \ldots, y_n) = p(y_1 \mid \theta) \times \cdots \times p(y_n \mid \theta) = \prod_{i=1}^{n} p(y_i \mid \theta)
+            \]
+        
+            \item \textbf{Continuous case:}
+            \[
+            L(\theta) = L(y_1, \ldots, y_n \mid \theta) = f(y_1, \ldots, y_n) = f(y_1 \mid \theta) \times \cdots \times f(y_n \mid \theta) = \prod_{i=1}^{n} f(y_i \mid \theta)
+            \]
+        \end{itemize}
+    \end{definition}
+
+    \begin{theorem} \textbf{Factorization Theorem}\\
+        Let \( U \) be a statistic based on the random sample \( Y_1, Y_2, \ldots, Y_n \). Then \( U \) is a sufficient statistic for the estimation of a parameter \(\theta\) if and only if the likelihood \( L(\theta) = L(y_1, y_2, \ldots, y_n \mid \theta) \) can be factored into two nonnegative functions,
+        
+        \[
+        L(y_1, y_2, \ldots, y_n \mid \theta) = g(U, \theta) \times h(y_1, y_2, \ldots, y_n),
+        \]
+        
+        where \( g(u, \theta) \) is a function only of \( u \) and \(\theta\) and \( h(y_1, y_2, \ldots, y_n) \) is not a function of \(\theta\).
+    \end{theorem}
 
     \newpage
 
     \subsection{Completeness and Uniqueness}
 
+    \begin{itemize}
+        \item Let \( Y_1, \ldots, Y_n \overset{\text{i.i.d.}}{\sim} f_\theta \)
+        \item \textbf{Notation:} \( g(U) = 0 \text{ a.e.} \) means \( P(\{U : g(U) \neq 0\}) = 0 \)
+    \end{itemize}
+    
+    \begin{definition}
+    A statistic \( U = U(Y_1, \ldots, Y_n) \) is said to be \textbf{complete} if and only if for every function \( g(U) \) such that
+    
+    \[
+        E(g(U)) = 0 \text{ for all } \theta \implies g(U) = 0 \text{ a.e.}
+    \]
+    \end{definition}
+    
+    \begin{theorem}
+        Under completeness, any unbiased estimator of is unique.
+    \end{theorem}
+
+    \begin{proof}
+        If \( E(g_1(U)) = \theta \) and \( E(g_2(U)) = \theta \), then \( g_1(U) \) and \( g_2(U) \) are unbiased estimators of \(\theta\). Then it follows that
+
+        \[
+            E(g_1(U) - g_2(U)) = \theta - \theta = 0
+        \]
+
+        By completeness, \(g_1(U) - g_2(U) = 0 \text{ a.e.} \Rightarrow g_1(U) = g_2(U) \text{ a.e.}\)
+    \end{proof}
+
+    \textbf{How to find a complete and a sufficient statistic?}
+
+    \textbf{Two methods:}
+
+    \begin{itemize}
+        \item \textbf{Method I:} \textit{(not required)}
+        \begin{enumerate}
+            \item Obtain a sufficient statistic by the factorization theorem.
+            \item Check completeness via definition: \(E(g(U)) = 0\) for all \(\theta\) implies that \(g(U) = 0\) a.e.
+            \item It is often challenging to directly verify completeness from the definition.
+        \end{enumerate}
+        \item \textbf{Method II:} Using the \underline{Exponential Family} property, as described on the next page.
+    \end{itemize}
+
     \newpage
 
     \subsection{Exponential Family}
+
+    \begin{definition} \textbf{Exponential Family}\\
+        Consider the pdf/pmf \( f(\cdot \mid \theta) \).
+        
+        \begin{enumerate}
+            \item \( f(y \mid \theta) \) is said to be a member of the \textbf{exponential class} if it can be written in the form:
+        
+            \[
+            f(y \mid \theta) = e^{p(\theta)K(y) + q(\theta) + S(y)}, \quad \text{if } a < y < b,
+            \]
+            
+            \item \( f(y \mid \theta) \) is said to be a \textbf{regular} member of the exponential class (family) if, in addition to (1) above:
+            \begin{enumerate}
+                \item \(a\) and \(b\) are free of \(\theta\)
+                \item \(p(\theta)\) and \(K(y)\) are non-trivial \([\iff p'(\theta) \neq 0 \text{ and } K'(y) \neq 0]\)
+                \item \(S(y)\) is continuous
+            \end{enumerate}
+        \end{enumerate}
+        
+        \end{definition}
+
+        \begin{theorem}
+            Consider the pdf/pmf \(f(y \mid \theta)\), where \(\theta \in \Omega\). If \(f(y \mid \theta)\) is a regular member of the exponential class, then \(U = \sum\limits_{i=1}^{n} K(y_i)\) is \underline{sufficient} and \underline{complete}.
+        \end{theorem}
 
     \newpage
 
     \subsection{The Rao-Blackwell Theorem}
 
+    \begin{definition}
+        Let \( Y_1, \ldots, Y_n \) be a random sample of size \( n \) from \( f(y \mid \theta) \). An estimator \( T = T(Y_1, Y_2, \ldots, Y_n) \) is called a \textbf{minimum variance unbiased estimator (MVUE)} of the parameter \(\theta\) if \( T \) is unbiased, that is, \( E(T) = \theta \), and if the variance of \( T \) is less than or equal to the variance of every other unbiased estimator of \(\theta\).
+    \end{definition}
+
+    \begin{theorem} \textbf{The Rao-Blackwell Theorem}\\
+        Let \(\hat{\theta}\) be an \underline{unbiased} estimator for \(\theta\) such that \(V(\hat{\theta}) < \infty\). If \(U\) is a \underline{sufficient statistic} for \(\theta\), define \(\hat{\theta}^* = E(\hat{\theta} \mid U)\). Then, for all \(\theta\),
+        
+        \[
+            E(\hat{\theta}^*) = \theta \quad \text{and} \quad V(\hat{\theta}^*) \leq V(\hat{\theta}).
+        \]
+
+        That is, $\theta^* = E(\text{unbiased}|\text{sufficient})$ is a MVUE.
+    \end{theorem}
+
+    \bigskip
+
+    Rao-Blackwell Theorem gives a procedure to improve two given estimators as follows:
+
+    \begin{enumerate}
+        \item Start with an unbiased estimator \(\hat{\theta}\) for a parameter \(\theta\) and the sufficient statistic \(U\) obtained through the factorization criterion.
+    
+        \item Then \(\hat{\theta}^* = E(\hat{\theta} \mid U)\) is \textbf{"better"} than \(\hat{\theta}\) [since it is unbiased as \(\hat{\theta}\) and has variance less than that of \(\hat{\theta}\)] and is \textbf{"better"} than \(U\) [since it is a function of the sufficient statistic and unbiased].
+    \end{enumerate}
+
     \newpage
 
     \subsection{Unique Minimum Variance Unbiased Estimator (UMVUE)}
 
-    \newpage
+    \begin{theorem} \textbf{Lehmann-Scheffé Theorem}\\
+        Suppose \( Y_1, Y_2, \ldots, Y_n \) are i.i.d. with pdf \( f(y \mid \theta) \). If \( U_1 = U_1(Y_1, \ldots, Y_n) \) is an \underline{unbiased} estimator of \(\theta\) and \( U_2 = U_2(Y_1, \ldots, Y_n) \) is \underline{sufficient} and \underline{complete}, then \( E(U_1 \mid U_2) \) is the \underline{Unique Minimum Variance Unbiased Estimator (UMVUE)} of \(\theta\).
 
-    \subsection{Cramer-Rao Theorem}
+        \bigskip
 
-    \newpage
+        That is \(E(\text{unbiased}|\text{sufficient and complete}) = \text{UMVUE}\).
+    \end{theorem}
 
-    \subsection{How to find Estimators}
+    \bigskip
 
-    \newpage
+    It is unique because of the completeness property.\\
+    It has minimum variance by Rao-Blackwell Theorem.
 
-    \section{Chapter 10 \textemdash{} Hypothesis Testing}
+    \bigskip
 
-    \subsection{Elements of a Statistical Test}
+    We have two procedures to find the UMVUE:
 
-    \newpage
+    \begin{itemize}
+        \item \textbf{Procedure 1:} Two steps
+        \begin{enumerate}
+            \item Get \(U_1\) and \(U_2\) such that \(U_1\) is an unbiased estimator and \(U_2\) is sufficient and complete.
+            \item Then \(E(U_1 \mid U_2)\) is the UMVUE.
+        \end{enumerate}
+        
+        \item \textbf{Procedure 2:} Two steps
+        \begin{enumerate}
+            \item Find a complete and sufficient statistic \(U\).
+            \item Find \(\phi(U)\) such that \(E(\phi(U)) = \theta\). Then \(\phi(U)\) is the UMVUE.
+        \end{enumerate}
+    \end{itemize}
 
-    \subsection{Neyman-Pearson Lemma}
+    % \newpage
 
-    \newpage
+    % \subsection{Cramer-Rao Theorem}
 
-    \subsection{Likelihood Ratio Tests}
+    % \newpage
+
+    % \subsection{How to find Estimators}
+
+    % \newpage
+
+    % \section{Chapter 10 \textemdash{} Hypothesis Testing}
+
+    % \subsection{Elements of a Statistical Test}
+
+    % \newpage
+
+    % \subsection{Neyman-Pearson Lemma}
+
+    % \newpage
+
+    % \subsection{Likelihood Ratio Tests}
 \end{document}
